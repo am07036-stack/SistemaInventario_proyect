@@ -77,5 +77,32 @@ public class ProductoDAO {
     );
 
 }
- 
+ public void actualizarCantidad(String codigo, int nuevaCantidad) {
+
+    coleccion.updateOne(
+            Filters.eq("codigo", codigo),
+            Updates.set("cantidad", nuevaCantidad)
+    );
+}
+ public Producto buscarPorCodigo(String codigo) {
+
+    Document doc = coleccion.find(
+            Filters.eq("codigo", codigo))
+            .first();
+
+    if (doc == null) {
+        return null;
+    }
+
+    Producto producto = new Producto();
+
+    producto.setCodigo(doc.getString("codigo"));
+    producto.setNombre(doc.getString("nombre"));
+    producto.setDescripcion(doc.getString("descripcion"));
+    producto.setCategoria(doc.getString("categoria"));
+    producto.setPrecio(doc.getDouble("precio"));
+    producto.setCantidad(doc.getInteger("cantidad"));
+
+    return producto;
+}
 }

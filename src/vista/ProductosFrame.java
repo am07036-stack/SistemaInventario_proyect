@@ -217,16 +217,13 @@ public class ProductosFrame extends JFrame {
 
         btnEliminar.addActionListener(e -> eliminarProducto());
 
-        btnBuscar.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Buscar producto"));
+        btnBuscar.addActionListener(e -> buscarProducto());
 
         btnLimpiar.addActionListener(e -> limpiarCampos());
 
-        btnEntrada.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Registrar entrada"));
+        btnEntrada.addActionListener(e -> registrarEntrada());
 
-        btnSalida.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Registrar salida"));
+        btnSalida.addActionListener(e -> registrarSalida());
         
        tblProductos.getSelectionModel().addListSelectionListener(e -> { 
     if (!e.getValueIsAdjusting()) {
@@ -400,5 +397,120 @@ private void eliminarProducto() {
                 "Error al eliminar producto");
     }
 }
+private void registrarEntrada() {
 
+    try {
+
+        String codigo = txtCodigo.getText().trim();
+
+        int cantidadActual =
+                Integer.parseInt(txtCantidad.getText().trim());
+
+        int movimiento =
+                Integer.parseInt(txtMovimiento.getText().trim());
+
+        int nuevaCantidad = cantidadActual + movimiento;
+
+        productoDAO.actualizarCantidad(
+                codigo,
+                nuevaCantidad);
+
+        cargarProductos();
+
+        txtCantidad.setText(
+                String.valueOf(nuevaCantidad));
+
+        txtMovimiento.setText("");
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Entrada registrada correctamente");
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Error al registrar entrada");
+    }
+}
+private void registrarSalida() {
+
+    try {
+
+        String codigo = txtCodigo.getText().trim();
+
+        int cantidadActual =
+                Integer.parseInt(txtCantidad.getText().trim());
+
+        int movimiento =
+                Integer.parseInt(txtMovimiento.getText().trim());
+
+        if (movimiento > cantidadActual) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No hay existencias suficientes");
+
+            return;
+        }
+
+        int nuevaCantidad = cantidadActual - movimiento;
+
+        productoDAO.actualizarCantidad(
+                codigo,
+                nuevaCantidad);
+
+        cargarProductos();
+
+        txtCantidad.setText(
+                String.valueOf(nuevaCantidad));
+
+        txtMovimiento.setText("");
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Salida registrada correctamente");
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Error al registrar salida");
+    }
+}
+private void buscarProducto() {
+
+    String codigo = txtCodigo.getText().trim();
+
+    Producto producto =
+            productoDAO.buscarPorCodigo(codigo);
+
+    if (producto == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Producto no encontrado");
+
+        return;
+    }
+
+    txtNombre.setText(
+            producto.getNombre());
+
+    txtDescripcion.setText(
+            producto.getDescripcion());
+
+    cbCategoria.setSelectedItem(
+            producto.getCategoria());
+
+    txtPrecio.setText(
+            String.valueOf(producto.getPrecio()));
+
+    txtCantidad.setText(
+            String.valueOf(producto.getCantidad()));
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Producto encontrado");
+}
 }
