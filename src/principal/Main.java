@@ -1,14 +1,13 @@
 package principal;
 
-import vista.MenuPrincipalFrame;
+import vista.LoginFrame;
 
 public class Main {
 
     public static void main(String[] args) {
+LoginFrame login = new LoginFrame();
 
-        MenuPrincipalFrame menu = new MenuPrincipalFrame();
-        menu.setVisible(true);
-
+login.setVisible(true);
     }
 
 }

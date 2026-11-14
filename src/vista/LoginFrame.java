@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import dao.UsuarioDAO;
+
 
 public class LoginFrame extends JFrame {
 
@@ -17,6 +19,8 @@ public class LoginFrame extends JFrame {
     private JPasswordField txtPassword;
 
     private JButton btnLogin;
+    
+    private UsuarioDAO usuarioDAO;
 
     public LoginFrame() {
 
@@ -48,6 +52,8 @@ private void crearComponentes() {
     txtPassword = new JPasswordField();
 
     btnLogin = new JButton("Iniciar Sesión");
+    
+    usuarioDAO = new UsuarioDAO();
 }
 
 private void configurarComponentes() {
@@ -76,12 +82,35 @@ private void agregarComponentes() {
  private void eventos() {
 
 
-    btnLogin.addActionListener(e -> {
+    btnLogin.addActionListener(
+        e -> iniciarSesion());
+    }
+ 
+private void iniciarSesion() {
+            String usuario = txtUsuario.getText().trim();
+    String password = new String(txtPassword.getPassword());
+
+    if (usuario.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Complete usuario y contraseña");
+        return;
+    }
+
+    boolean acceso = usuarioDAO.validarLogin( usuario, password);
+
+    if (acceso) {
 
         JOptionPane.showMessageDialog(
-                null,
-                "Botón presionado");
+                this,"Bienvenido " + usuario);
 
-    });
+        MenuPrincipalFrame menu = new MenuPrincipalFrame();
+        menu.setVisible(true);
+        dispose();
+    } else {
+        JOptionPane.showMessageDialog(
+                this, "Usuario o contraseña incorrectos");
     }
+}
+ 
 }

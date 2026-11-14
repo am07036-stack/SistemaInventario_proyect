@@ -8,6 +8,9 @@ private String usuario;
 private String correo;
 private String passwordHash;
 
+    public Usuario() {
+    }
+
     public Usuario(String id, String usuario, String correo, String passwordHash) {
         this.id = id;
         this.usuario = usuario;
