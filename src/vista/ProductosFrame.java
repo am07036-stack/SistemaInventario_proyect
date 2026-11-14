@@ -268,10 +268,38 @@ public class ProductosFrame extends JFrame {
         String nombre = txtNombre.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
         String categoria = cbCategoria.getSelectedItem().toString();
+       
+        if (productoDAO.existeCodigo(codigo)) {
+            JOptionPane.showMessageDialog(
+            this,
+            "Ya existe un producto con ese código");
+            return;
+            }
+        
+       if (codigo.isEmpty()|| nombre.isEmpty() || descripcion.isEmpty()) {
+           JOptionPane.showMessageDialog(
+            this,
+            "Complete todos los campos obligatorios");
+            return;
+}
 
         double precio = Double.parseDouble(txtPrecio.getText().trim());
 
         int cantidad = Integer.parseInt(txtCantidad.getText().trim());
+       
+        if (precio < 0) { 
+            JOptionPane.showMessageDialog(
+            this,
+            "El precio no puede ser negativo");
+            return;
+            }
+
+        if (cantidad < 0) {
+             JOptionPane.showMessageDialog(
+            this,
+            "La cantidad no puede ser negativa");
+            return;
+            }
 
         Producto producto = new Producto(
                 codigo,
@@ -408,7 +436,12 @@ private void registrarEntrada() {
 
         int movimiento =
                 Integer.parseInt(txtMovimiento.getText().trim());
-
+        if (movimiento <= 0) {
+            JOptionPane.showMessageDialog(
+            this,
+            "El movimiento debe ser mayor que cero");
+            return;
+            }
         int nuevaCantidad = cantidadActual + movimiento;
 
         productoDAO.actualizarCantidad(
@@ -444,6 +477,12 @@ private void registrarSalida() {
 
         int movimiento =
                 Integer.parseInt(txtMovimiento.getText().trim());
+        if (movimiento <= 0) {
+            JOptionPane.showMessageDialog(
+            this,
+            "El movimiento debe ser mayor que cero");
+            return;
+            }
 
         if (movimiento > cantidadActual) {
 

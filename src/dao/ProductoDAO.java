@@ -105,4 +105,45 @@ public class ProductoDAO {
 
     return producto;
 }
+ public boolean existeCodigo(String codigo) {
+
+    Document doc = coleccion.find(
+            com.mongodb.client.model.Filters.eq(
+                    "codigo",
+                    codigo))
+            .first();
+
+    return doc != null;
+}
+ public double calcularValorInventario() {
+    double total = 0;
+    for (Producto producto : listarProductos()) {
+        total += producto.getPrecio() * producto.getCantidad();
+    }
+    return total;
+}
+ 
+ public java.util.List<Producto> productosSinExistencias() {
+    java.util.List<Producto> lista =
+            new java.util.ArrayList<>();
+            for (Producto producto : listarProductos()) {
+            if (producto.getCantidad() == 0) {
+                lista.add(producto);
+        }
+    }
+    return lista;
+}
+ public java.util.List<Producto> productosExistenciasBajas(
+        int limite) {
+            java.util.List<Producto> lista =
+            new java.util.ArrayList<>();
+                for (Producto producto : listarProductos()) {
+                    if (producto.getCantidad() <= limite) {
+                        lista.add(producto);
+        }
+    }
+    return lista;
+}
+ 
+ 
 }

@@ -79,11 +79,11 @@ public class MenuPrincipalFrame extends JFrame {
 
 });
         btnReportes.addActionListener(e -> {
+        ReportesFrame reportes =
+            new ReportesFrame();
+            reportes.setVisible(true);
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Abrir Reportes");
-        });
+            });
 
         btnCerrarSesion.addActionListener(e -> {
 
