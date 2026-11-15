@@ -208,8 +208,7 @@ public class ProductosFrame extends JFrame {
 
     private void eventos() {
 
-        btnNuevo.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Nuevo producto"));
+        btnNuevo.addActionListener(e -> { limpiarCampos(); cargarProductos();});
 
         btnGuardar.addActionListener(e -> guardarProducto());
 
@@ -241,8 +240,8 @@ public class ProductosFrame extends JFrame {
         txtPrecio.setText("");
         txtCantidad.setText("");
         txtMovimiento.setText("");
-
         cbCategoria.setSelectedIndex(0);
+        txtCodigo.setEditable(true);
     }
     private void cargarProductos() {
 
@@ -335,23 +334,18 @@ private void cargarFilaSeleccionada() {
 
     if (fila >= 0) {
 
-        txtCodigo.setText(
-                modeloTabla.getValueAt(fila, 0).toString());
+        txtCodigo.setText(modeloTabla.getValueAt(fila, 0).toString());
 
-        txtNombre.setText(
-                modeloTabla.getValueAt(fila, 1).toString());
+        txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
 
-        txtDescripcion.setText(
-                modeloTabla.getValueAt(fila, 2).toString());
+        txtDescripcion.setText(modeloTabla.getValueAt(fila, 2).toString());
 
-        cbCategoria.setSelectedItem(
-                modeloTabla.getValueAt(fila, 3).toString());
+        cbCategoria.setSelectedItem(modeloTabla.getValueAt(fila, 3).toString());
 
-        txtPrecio.setText(
-                modeloTabla.getValueAt(fila, 4).toString());
+        txtPrecio.setText(modeloTabla.getValueAt(fila, 4).toString());
 
-        txtCantidad.setText(
-                modeloTabla.getValueAt(fila, 5).toString());
+        txtCantidad.setText(modeloTabla.getValueAt(fila, 5).toString());
+        txtCodigo.setEditable(false);
     }
 }
 private void modificarProducto() {
@@ -519,37 +513,63 @@ private void registrarSalida() {
 }
 private void buscarProducto() {
 
-    String codigo = txtCodigo.getText().trim();
+    String datoBusqueda = txtCodigo.getText().trim();
 
-    Producto producto =
-            productoDAO.buscarPorCodigo(codigo);
+        if (datoBusqueda.isEmpty()) {
+            datoBusqueda =
+            txtNombre.getText().trim();
+}
 
-    if (producto == null) {
+        if (datoBusqueda.isEmpty()) {
+            JOptionPane.showMessageDialog(
+            this,"Ingrese código o nombre");
 
-        JOptionPane.showMessageDialog(
-                this,
-                "Producto no encontrado");
-
+    return;
+}
+    Producto producto = productoDAO.buscarPorCodigo(datoBusqueda);
+    if (producto != null) {
+        txtNombre.setText(
+                producto.getNombre());
+        txtDescripcion.setText(
+                producto.getDescripcion());
+        cbCategoria.setSelectedItem(
+                producto.getCategoria());
+        txtPrecio.setText(
+                String.valueOf(
+                        producto.getPrecio()));
+        txtCantidad.setText(
+                String.valueOf(
+                        producto.getCantidad()));
+        
+        modeloTabla.setRowCount(0);
+        modeloTabla.addRow(new Object[]{
+        producto.getCodigo(),
+        producto.getNombre(),
+        producto.getDescripcion(),
+        producto.getCategoria(),
+        producto.getPrecio(),
+        producto.getCantidad()
+    });
         return;
     }
 
-    txtNombre.setText(
-            producto.getNombre());
+    mostrarResultadosBusqueda(productoDAO.buscarPorNombre(datoBusqueda));
+}
+private void mostrarResultadosBusqueda(
+        java.util.List<Producto> productos) {
 
-    txtDescripcion.setText(
-            producto.getDescripcion());
+    modeloTabla.setRowCount(0);
 
-    cbCategoria.setSelectedItem(
-            producto.getCategoria());
+    for (Producto producto : productos) {
 
-    txtPrecio.setText(
-            String.valueOf(producto.getPrecio()));
-
-    txtCantidad.setText(
-            String.valueOf(producto.getCantidad()));
-
-    JOptionPane.showMessageDialog(
-            this,
-            "Producto encontrado");
+        modeloTabla.addRow(new Object[]{
+            producto.getCodigo(),
+            producto.getNombre(),
+            producto.getDescripcion(),
+            producto.getCategoria(),
+            producto.getPrecio(),
+            producto.getCantidad()
+        });
+    }
 }
 }

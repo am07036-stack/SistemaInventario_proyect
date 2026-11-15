@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import modelo.Usuario;
 import org.bson.Document;
+import util.PasswordUtil;
 
 public class UsuarioDAO {
 
@@ -55,13 +56,15 @@ public Usuario buscarUsuario(String usuario) {
 public boolean validarLogin(
         String usuario,
         String password) {
-    Usuario usuarioBD =
-            buscarUsuario(usuario);
+
+    Usuario usuarioBD = buscarUsuario(usuario);
     if (usuarioBD == null) {
         return false;
     }
+    String hashIngresado =
+            PasswordUtil.generarHash(password);
     return usuarioBD.getPasswordHash()
-            .equals(password);
+            .equals(hashIngresado);
 }
 
 }

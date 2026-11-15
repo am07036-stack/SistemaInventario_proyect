@@ -85,15 +85,12 @@ public class ProductoDAO {
     );
 }
  public Producto buscarPorCodigo(String codigo) {
-
     Document doc = coleccion.find(
             Filters.eq("codigo", codigo))
             .first();
-
     if (doc == null) {
         return null;
     }
-
     Producto producto = new Producto();
 
     producto.setCodigo(doc.getString("codigo"));
@@ -144,6 +141,17 @@ public class ProductoDAO {
     }
     return lista;
 }
- 
+public java.util.List<Producto> buscarPorNombre(String nombre) {
+    java.util.List<Producto> productos =
+            new java.util.ArrayList<>();
+    for (Producto producto : listarProductos()) {
+        if (producto.getNombre()
+                .toLowerCase()
+                .contains(nombre.toLowerCase())) {
+            productos.add(producto);
+        }
+    }
+    return productos;
+} 
  
 }
