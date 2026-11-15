@@ -25,6 +25,7 @@ public class PruebaUsuario {
             System.out.println(
                     "PasswordHash: "
                     + usuario.getPasswordHash());
+            System.out.println("Rol: "+ usuario.getRol());
 
         } else {
 

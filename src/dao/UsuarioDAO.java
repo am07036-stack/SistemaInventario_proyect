@@ -35,6 +35,8 @@ public class UsuarioDAO {
 
     doc.append("passwordHash",
             usuario.getPasswordHash());
+    doc.append("rol",
+        usuario.getRol());
 
     coleccion.insertOne(doc);
 }
@@ -49,8 +51,8 @@ public Usuario buscarUsuario(String usuario) {
     usuarioBD.setId(doc.getString("id"));
     usuarioBD.setUsuario(doc.getString("usuario"));
     usuarioBD.setCorreo(doc.getString("correo"));
-    usuarioBD.setPasswordHash(
-            doc.getString("passwordHash"));
+    usuarioBD.setPasswordHash(doc.getString("passwordHash"));
+    usuarioBD.setRol(doc.getString("rol"));
     return usuarioBD;
 }
 public boolean validarLogin(
@@ -65,6 +67,32 @@ public boolean validarLogin(
             PasswordUtil.generarHash(password);
     return usuarioBD.getPasswordHash()
             .equals(hashIngresado);
+}
+
+public java.util.List<Usuario> listarUsuarios() {
+    java.util.List<Usuario> usuarios =
+            new java.util.ArrayList<>();
+    for (Document doc : coleccion.find()) {
+        Usuario usuario = new Usuario();
+        usuario.setId(
+                doc.getString("id"));
+        usuario.setUsuario(
+                doc.getString("usuario"));
+        usuario.setCorreo(
+                doc.getString("correo"));
+        usuario.setPasswordHash(
+                doc.getString("passwordHash"));
+        usuario.setRol(
+                doc.getString("rol"));
+        usuarios.add(usuario);
+    }
+
+    return usuarios;
+}
+public boolean existeUsuario(String usuario) {
+
+    Document doc = coleccion.find(new Document("usuario", usuario)).first();
+    return doc != null;
 }
 
 }

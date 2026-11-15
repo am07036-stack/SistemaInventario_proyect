@@ -11,20 +11,21 @@ public class MenuPrincipalFrame extends JFrame {
 
     private JLabel lblTitulo;
     private JLabel lblBienvenida;
-
     private JButton btnProductos;
     private JButton btnReportes;
     private JButton btnCerrarSesion;
+    private JButton btnUsuarios;
+    private String rol;
 
-    public MenuPrincipalFrame() {
-
-        configurarVentana();
-
-        crearComponentes();
-        configurarComponentes();
-        agregarComponentes();
-        eventos();
-    }
+    public MenuPrincipalFrame(String rol) {
+    this.rol = rol;
+    configurarVentana();
+    crearComponentes();
+    configurarComponentes();
+    agregarComponentes();
+    eventos();
+    configurarPermisos();
+}
 
     private void configurarVentana() {
 
@@ -44,20 +45,18 @@ public class MenuPrincipalFrame extends JFrame {
         btnProductos = new JButton("Gestión de Productos");
         btnReportes = new JButton("Reportes");
         btnCerrarSesion = new JButton("Cerrar Sesión");
+        btnUsuarios = new JButton("Gestión de Usuarios");
     }
 
     private void configurarComponentes() {
 
         lblTitulo.setBounds(115, 30, 300, 30);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-
         lblBienvenida.setBounds(150, 70, 200, 25);
-
         btnProductos.setBounds(140, 120, 200, 40);
-
         btnReportes.setBounds(140, 180, 200, 40);
-
-        btnCerrarSesion.setBounds(140, 240, 200, 40);
+        btnUsuarios.setBounds(140, 240, 200, 40);
+        btnCerrarSesion.setBounds(140, 300, 200, 40);
     }
 
     private void agregarComponentes() {
@@ -67,12 +66,14 @@ public class MenuPrincipalFrame extends JFrame {
 
         add(btnProductos);
         add(btnReportes);
+        add(btnUsuarios);
         add(btnCerrarSesion);
+        
     }
 
     private void eventos() {
 
-        btnProductos.addActionListener(e -> {
+    btnProductos.addActionListener(e -> {
 
     ProductosFrame productos = new ProductosFrame();
     productos.setVisible(true);
@@ -102,5 +103,16 @@ public class MenuPrincipalFrame extends JFrame {
             }
 
         });
+        
+    btnUsuarios.addActionListener(e -> {UsuariosFrame usuarios = new UsuariosFrame();
+    usuarios.setVisible(true);
+
+});    
     }
+  private void configurarPermisos() {
+
+    if (!rol.equals("ADMINISTRADOR")) {btnUsuarios.setVisible(false);
+    }
+}  
+    
 }

@@ -7,6 +7,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import dao.UsuarioDAO;
+import modelo.Usuario;
 
 
 public class LoginFrame extends JFrame {
@@ -104,7 +105,8 @@ private void iniciarSesion() {
         JOptionPane.showMessageDialog(
                 this,"Bienvenido " + usuario);
 
-        MenuPrincipalFrame menu = new MenuPrincipalFrame();
+        Usuario usuarioBD = usuarioDAO.buscarUsuario(usuario);
+        MenuPrincipalFrame menu = new MenuPrincipalFrame(usuarioBD.getRol());
         menu.setVisible(true);
         dispose();
     } else {

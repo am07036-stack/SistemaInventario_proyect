@@ -9,11 +9,10 @@ public class CrearAdmin {
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-        Usuario admin = new Usuario(
-                "1",
+        Usuario admin = new Usuario( "1",
                 "admin",
                 "admin@inventario.com",
-                "admin123"
+                "admin123","ADMINISTRADOR"
         );
 
         usuarioDAO.guardarUsuario(admin);

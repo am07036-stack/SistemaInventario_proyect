@@ -7,15 +7,17 @@ private String id;
 private String usuario;
 private String correo;
 private String passwordHash;
+private String rol;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String usuario, String correo, String passwordHash) {
+    public Usuario(String id, String usuario, String correo, String passwordHash,String rol) {
         this.id = id;
         this.usuario = usuario;
         this.correo = correo;
         this.passwordHash = passwordHash;
+        this.rol = rol;
     }
 
     public String getId() {
@@ -48,6 +50,14 @@ private String passwordHash;
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
 
