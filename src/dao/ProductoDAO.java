@@ -48,7 +48,6 @@ public class ProductoDAO {
         producto.setNombre(doc.getString("nombre"));
         producto.setDescripcion(doc.getString("descripcion"));
         producto.setCategoria(doc.getString("categoria"));
-
         producto.setPrecio(doc.getDouble("precio"));
         producto.setCantidad(doc.getInteger("cantidad"));
 
@@ -70,24 +69,17 @@ public class ProductoDAO {
             )
     );
 }
-   public void eliminarProducto(String codigo) {
-
-    coleccion.deleteOne(
-            Filters.eq("codigo", codigo)
+   public void eliminarProducto(String codigo) {coleccion.deleteOne( Filters.eq("codigo", codigo)
     );
 
 }
  public void actualizarCantidad(String codigo, int nuevaCantidad) {
 
-    coleccion.updateOne(
-            Filters.eq("codigo", codigo),
-            Updates.set("cantidad", nuevaCantidad)
+    coleccion.updateOne( Filters.eq("codigo", codigo), Updates.set("cantidad", nuevaCantidad)
     );
 }
  public Producto buscarPorCodigo(String codigo) {
-    Document doc = coleccion.find(
-            Filters.eq("codigo", codigo))
-            .first();
+    Document doc = coleccion.find(Filters.eq("codigo", codigo)).first();
     if (doc == null) {
         return null;
     }
@@ -104,10 +96,7 @@ public class ProductoDAO {
 }
  public boolean existeCodigo(String codigo) {
 
-    Document doc = coleccion.find(
-            com.mongodb.client.model.Filters.eq(
-                    "codigo",
-                    codigo))
+    Document doc = coleccion.find(com.mongodb.client.model.Filters.eq("codigo",codigo))
             .first();
 
     return doc != null;
@@ -153,5 +142,4 @@ public java.util.List<Producto> buscarPorNombre(String nombre) {
     }
     return productos;
 } 
- 
 }

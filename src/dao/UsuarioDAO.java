@@ -12,15 +12,12 @@ public class UsuarioDAO {
 
     public UsuarioDAO() {
 
-        MongoDatabase db =
-                ConexionMongo.conectar();
+        MongoDatabase db = ConexionMongo.conectar();
 
-        coleccion =
-                db.getCollection("usuarios");
+        coleccion = db.getCollection("usuarios");
     }
 
-    public void guardarUsuario(
-        Usuario usuario) {
+    public void guardarUsuario( Usuario usuario) {
 
     Document doc = new Document();
 

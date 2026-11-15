@@ -10,8 +10,7 @@ public class PruebaConexion {
 
             MongoDatabase db = ConexionMongo.conectar();
 
-            System.out.println(
-                    "Conectado a la base de datos: "
+            System.out.println("Conectado a la base de datos: "
                     + db.getName());
 
         } catch (Exception e) {
